@@ -21,7 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Humweb\\Tags": "src/"
+      "Humweb\\Tags\\": "src/"
     }
   },
   "autoload-dev": {
