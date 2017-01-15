@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tagged extends Model
 {
-    protected $table      = 'tagged_items';
     public    $timestamps = false;
+    protected $table      = 'tagged_items';
     protected $softDelete = false;
     protected $fillable   = ['tag_id', 'tag_name', 'tag_slug'];
 

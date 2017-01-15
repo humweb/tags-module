@@ -8,17 +8,19 @@ use Illuminate\Support\Facades\Schema;
 
 class Module extends AbstractModule
 {
-    public $name = 'Tags';
-    public $version = '1.1';
-    public $author = 'Ryun Shofner';
-    public $website = 'humboldtweb.com';
-    public $license = 'BSD-3-Clause';
+    public $name        = 'Tags';
+    public $version     = '1.1';
+    public $author      = 'Ryun Shofner';
+    public $website     = 'humboldtweb.com';
+    public $license     = 'BSD-3-Clause';
     public $description = 'Tags Module';
-    public $autoload = [];
+    public $autoload    = [];
+
 
     public function boot()
     {
     }
+
 
     public function install()
     {
@@ -39,6 +41,8 @@ class Module extends AbstractModule
 
         return true;
     }
+
+
     public function uninstall()
     {
         Schema::dropIfExists('tagged_items');
@@ -46,10 +50,13 @@ class Module extends AbstractModule
 
         return true;
     }
+
+
     public function upgrade()
     {
         return true;
     }
+
 
     public function admin_menu()
     {

@@ -12,17 +12,6 @@ trait TaggableTrait
 
 
     /**
-     * Tagged relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
-    public function tagged()
-    {
-        return $this->morphToMany(Tag::class, 'taggable', 'tagged_items');
-    }
-
-
-    /**
      * Tagged query scope
      *
      * @param string $tagName
@@ -42,6 +31,35 @@ trait TaggableTrait
                 $q->where('tags.slug', '=', Str::slug($tagName));
             }
         });
+    }
+
+
+    /**
+     * @return boolean
+     */
+    public static function shouldCleanupUnused()
+    {
+        return self::$shouldCleanupUnused;
+    }
+
+
+    /**
+     * @param boolean $shouldCleanupUnused
+     */
+    public static function setCleanupUnused($shouldCleanupUnused)
+    {
+        self::$shouldCleanupUnused = $shouldCleanupUnused;
+    }
+
+
+    /**
+     * Tagged relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function tagged()
+    {
+        return $this->morphToMany(Tag::class, 'taggable', 'tagged_items');
     }
 
 
@@ -186,23 +204,5 @@ trait TaggableTrait
         foreach ($changes['detached'] as $id) {
             Tag::where('id', $id)->decrement('count');
         }
-    }
-
-
-    /**
-     * @return boolean
-     */
-    public static function shouldCleanupUnused()
-    {
-        return self::$shouldCleanupUnused;
-    }
-
-
-    /**
-     * @param boolean $shouldCleanupUnused
-     */
-    public static function setCleanupUnused($shouldCleanupUnused)
-    {
-        self::$shouldCleanupUnused = $shouldCleanupUnused;
     }
 }

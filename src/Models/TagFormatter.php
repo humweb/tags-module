@@ -17,6 +17,7 @@ class TagFormatter
         return Str::slug($title);
     }
 
+
     public function title($slug)
     {
         return Str::title($slug);

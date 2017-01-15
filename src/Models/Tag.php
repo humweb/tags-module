@@ -14,17 +14,6 @@ class Tag extends Model
 
 
     /**
-     * Name mutator
-     *
-     * @param string $value
-     */
-    public function setNameAttribute($value)
-    {
-        $this->attributes['name'] = Str::title($value);
-    }
-
-
-    /**
      * Remove unused tags
      *
      * @return int
@@ -45,19 +34,6 @@ class Tag extends Model
     public static function incrementCount($slug, $name, $count = 1)
     {
         static::incrementOrDecrementCount($slug, $name, $count, 'increment');
-    }
-
-
-    /**
-     * Decrement tag count
-     *
-     * @param string $slug
-     * @param string $name
-     * @param int    $count
-     */
-    public static function decrementCount($slug, $name, $count = 1)
-    {
-        static::incrementOrDecrementCount($slug, $name, $count, 'decrement');
     }
 
 
@@ -87,6 +63,30 @@ class Tag extends Model
         $tag->count = $tag->count + ($action == 'increment' ? $count : $count * -1);
 
         $tag->save();
+    }
+
+
+    /**
+     * Decrement tag count
+     *
+     * @param string $slug
+     * @param string $name
+     * @param int    $count
+     */
+    public static function decrementCount($slug, $name, $count = 1)
+    {
+        static::incrementOrDecrementCount($slug, $name, $count, 'decrement');
+    }
+
+
+    /**
+     * Name mutator
+     *
+     * @param string $value
+     */
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = Str::title($value);
     }
 
 }
