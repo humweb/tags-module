@@ -6,15 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tagged extends Model
 {
-    protected $table = 'tagged_items';
-    public $timestamps = false;
+    protected $table      = 'tagged_items';
+    public    $timestamps = false;
     protected $softDelete = false;
-    protected $fillable = ['tag_id', 'tag_name', 'tag_slug'];
+    protected $fillable   = ['tag_id', 'tag_name', 'tag_slug'];
+
 
     public function taggable()
     {
         return $this->morphTo();
     }
+
 
     /**
      * Get instance of tag linked to the tagged value

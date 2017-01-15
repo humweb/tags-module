@@ -10,6 +10,7 @@ trait TaggableTrait
 
     public static $shouldCleanupUnused = false;
 
+
     /**
      * Tagged relationship
      *
@@ -19,6 +20,7 @@ trait TaggableTrait
     {
         return $this->morphToMany(Tag::class, 'taggable', 'tagged_items');
     }
+
 
     /**
      * Tagged query scope
@@ -41,6 +43,7 @@ trait TaggableTrait
             }
         });
     }
+
 
     /**
      * Sync tags
@@ -80,6 +83,7 @@ trait TaggableTrait
         $this->updateTagCounts($changes);
     }
 
+
     /**
      * Add tag
      *
@@ -103,10 +107,12 @@ trait TaggableTrait
             'slug' => $tagSlug,
         ]);
 
-        if ($this->tagged()->attach($tagged)) {
-            Tag::incrementCount($tagSlug, $tagName, 1);
-        }
+        $this->tagged()->attach($tagged);
+
+        // TODO: refactor to event (possibly on the model insert event)
+        Tag::incrementCount($tagSlug, $tagName, 1);
     }
+
 
     /**
      * Remove the tag from this model
@@ -130,6 +136,7 @@ trait TaggableTrait
         }
     }
 
+
     /**
      * Remove the tag from this model.
      *
@@ -139,12 +146,13 @@ trait TaggableTrait
     {
         $tagName = trim($tagName);
         $tagSlug = Str::slug($tagName);
-        $tag = $this->tagged()->where('slug', '=', $tagSlug)->first();
+        $tag     = $this->tagged()->where('slug', '=', $tagSlug)->first();
 
         if ($tag && $count = $this->tagged()->detach($tag->id)) {
             Tag::decrementCount($tagSlug, $tagName, $count);
         }
     }
+
 
     /**
      * Return array of the tag names related to the current model.
@@ -163,6 +171,7 @@ trait TaggableTrait
         return $tagNames;
     }
 
+
     /**
      * Update tag counts
      *
@@ -179,6 +188,7 @@ trait TaggableTrait
         }
     }
 
+
     /**
      * @return boolean
      */
@@ -186,6 +196,7 @@ trait TaggableTrait
     {
         return self::$shouldCleanupUnused;
     }
+
 
     /**
      * @param boolean $shouldCleanupUnused

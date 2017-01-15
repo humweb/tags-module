@@ -12,6 +12,7 @@ class Tag extends Model
     protected $table      = 'tags';
     protected $softDelete = false;
 
+
     /**
      * Name mutator
      *
@@ -22,6 +23,7 @@ class Tag extends Model
         $this->attributes['name'] = Str::title($value);
     }
 
+
     /**
      * Remove unused tags
      *
@@ -31,6 +33,7 @@ class Tag extends Model
     {
         return static::where('count', '=', 0)->delete();
     }
+
 
     /**
      * Increment tag count
@@ -44,6 +47,7 @@ class Tag extends Model
         static::incrementOrDecrementCount($slug, $name, $count, 'increment');
     }
 
+
     /**
      * Decrement tag count
      *
@@ -55,6 +59,7 @@ class Tag extends Model
     {
         static::incrementOrDecrementCount($slug, $name, $count, 'decrement');
     }
+
 
     /**
      * Increment or decrement count for a tag
@@ -73,7 +78,7 @@ class Tag extends Model
         $tag = static::where('slug', '=', $slug)->first();
 
         if ( ! $tag) {
-            $tag          = new self;
+            $tag          = new static;
             $tag->name    = $name == '' ? $slug : $name;
             $tag->slug    = $slug;
             $tag->count   = 0;
