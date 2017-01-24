@@ -28,41 +28,11 @@ class Tag extends Model
      * Increment tag count
      *
      * @param string $slug
-     * @param string $name
      * @param int    $count
      */
-    public static function incrementCount($slug, $name, $count = 1)
+    public static function incrementCount($slug, $count = 1)
     {
-        static::incrementOrDecrementCount($slug, $name, $count, 'increment');
-    }
-
-
-    /**
-     * Increment or decrement count for a tag
-     *
-     * @param string  $slug
-     * @param string  $name
-     * @param integer $count
-     * @param string  $action
-     */
-    public static function incrementOrDecrementCount($slug, $name, $count, $action)
-    {
-        if ($count <= 0) {
-            return;
-        }
-
-        $tag = static::where('slug', '=', $slug)->first();
-
-        if ( ! $tag) {
-            $tag          = new static;
-            $tag->name    = $name == '' ? $slug : $name;
-            $tag->slug    = $slug;
-            $tag->count   = 0;
-            $tag->suggest = false;
-        }
-        $tag->count = $tag->count + ($action == 'increment' ? $count : $count * -1);
-
-        $tag->save();
+        return static::where('slug', '=', $slug)->increment('count', $count);
     }
 
 
@@ -70,12 +40,11 @@ class Tag extends Model
      * Decrement tag count
      *
      * @param string $slug
-     * @param string $name
      * @param int    $count
      */
-    public static function decrementCount($slug, $name, $count = 1)
+    public static function decrementCount($slug, $count = 1)
     {
-        static::incrementOrDecrementCount($slug, $name, $count, 'decrement');
+        return static::where('slug', '=', $slug)->decrement('count', $count);
     }
 
 

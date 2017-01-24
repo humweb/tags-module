@@ -2,7 +2,6 @@
 
 namespace Humweb\Tags\Models;
 
-use DB;
 use Illuminate\Support\Str;
 
 trait TaggableTrait
@@ -12,9 +11,19 @@ trait TaggableTrait
 
 
     /**
+     * Tagged relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function tagged()
+    {
+        return $this->morphToMany(Tag::class, 'taggable', 'tagged_items');
+    }
+
+    /**
      * Tagged query scope
      *
-     * @param string $tagName
+     * @param string|array $tagName
      *
      * @return Illuminate\Database\Eloquent\Builder
      */
@@ -33,34 +42,6 @@ trait TaggableTrait
         });
     }
 
-
-    /**
-     * @return boolean
-     */
-    public static function shouldCleanupUnused()
-    {
-        return self::$shouldCleanupUnused;
-    }
-
-
-    /**
-     * @param boolean $shouldCleanupUnused
-     */
-    public static function setCleanupUnused($shouldCleanupUnused)
-    {
-        self::$shouldCleanupUnused = $shouldCleanupUnused;
-    }
-
-
-    /**
-     * Tagged relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
-    public function tagged()
-    {
-        return $this->morphToMany(Tag::class, 'taggable', 'tagged_items');
-    }
 
 
     /**
@@ -128,7 +109,7 @@ trait TaggableTrait
         $this->tagged()->attach($tagged);
 
         // TODO: refactor to event (possibly on the model insert event)
-        Tag::incrementCount($tagSlug, $tagName, 1);
+        Tag::incrementCount($tagSlug, 1);
     }
 
 
@@ -167,7 +148,7 @@ trait TaggableTrait
         $tag     = $this->tagged()->where('slug', '=', $tagSlug)->first();
 
         if ($tag && $count = $this->tagged()->detach($tag->id)) {
-            Tag::decrementCount($tagSlug, $tagName, $count);
+            Tag::decrementCount($tagSlug, $count);
         }
     }
 
@@ -205,4 +186,22 @@ trait TaggableTrait
             Tag::where('id', $id)->decrement('count');
         }
     }
+
+    /**
+     * @return boolean
+     */
+    public static function shouldCleanupUnused()
+    {
+        return self::$shouldCleanupUnused;
+    }
+
+
+    /**
+     * @param boolean $shouldCleanupUnused
+     */
+    public static function setCleanupUnused($shouldCleanupUnused)
+    {
+        self::$shouldCleanupUnused = $shouldCleanupUnused;
+    }
+
 }
