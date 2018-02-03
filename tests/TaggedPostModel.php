@@ -1,4 +1,5 @@
 <?php
+
 use Humweb\Blog\Models\Post;
 
 /**

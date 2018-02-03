@@ -20,6 +20,7 @@ trait TaggableTrait
         return $this->morphToMany(Tag::class, 'taggable', 'tagged_items');
     }
 
+
     /**
      * Tagged query scope
      *
@@ -41,7 +42,6 @@ trait TaggableTrait
             }
         });
     }
-
 
 
     /**
@@ -102,7 +102,7 @@ trait TaggableTrait
         }
 
         $tagged = Tag::firstOrCreate([
-            'name' => Str::title($tagName),
+            'name' => title_case($tagName),
             'slug' => $tagSlug,
         ]);
 
@@ -186,6 +186,7 @@ trait TaggableTrait
             Tag::where('id', $id)->decrement('count');
         }
     }
+
 
     /**
      * @return boolean

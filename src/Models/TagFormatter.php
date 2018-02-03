@@ -20,6 +20,6 @@ class TagFormatter
 
     public function title($slug)
     {
-        return Str::title($slug);
+        return title_case($slug);
     }
 }

@@ -2,12 +2,13 @@
 
 namespace Humweb\Tests\Tags;
 
-use Humweb\Tests\Tags\Fake\Page;
 use Humweb\Tags\Models\Tag;
+use Humweb\Tests\Tags\Fake\Page;
 
 class TagsTest extends TestCase
 {
     protected $runMigrations = true;
+
 
     /**
      * @test
@@ -16,6 +17,7 @@ class TagsTest extends TestCase
     {
         $this->assertEquals(0, Tag::count());
     }
+
 
     /**
      * @test
@@ -30,6 +32,7 @@ class TagsTest extends TestCase
         $this->assertEquals('cool', $tags[0]->slug);
         $this->assertEquals('foo', $tags[1]->slug);
     }
+
 
     /**
      * @test
@@ -48,7 +51,6 @@ class TagsTest extends TestCase
         $page = Page::find(1);
         $page->untag('Cool');
         $this->assertEquals(1, $page->tagged->count());
-
     }
 
 
@@ -72,8 +74,9 @@ class TagsTest extends TestCase
         $this->assertEquals(2, $page->tagged->count());
         $this->assertNull($page->tagged->where('name', 'Cool')->first());
         $this->assertEquals('foo', $page->tagged->where('name', 'Foo')->first()->slug);
-    } 
-    
+    }
+
+
     /**
      * @test
      */
@@ -102,7 +105,6 @@ class TagsTest extends TestCase
         // Test decrement
         $page->saveTags([]);
         $this->assertEquals(2, Tag::select('count')->where('slug', 'cool')->value('count'));
-
     }
 
 }

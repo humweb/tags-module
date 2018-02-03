@@ -3,7 +3,6 @@
 namespace Humweb\Tags\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class Tag extends Model
 {
@@ -29,6 +28,8 @@ class Tag extends Model
      *
      * @param string $slug
      * @param int    $count
+     *
+     * @return int
      */
     public static function incrementCount($slug, $count = 1)
     {
@@ -55,7 +56,7 @@ class Tag extends Model
      */
     public function setNameAttribute($value)
     {
-        $this->attributes['name'] = Str::title($value);
+        $this->attributes['name'] = title_case($value);
     }
 
 }

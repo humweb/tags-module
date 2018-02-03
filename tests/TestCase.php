@@ -7,6 +7,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
     protected $runMigrations = false;
 
+
     /**
      * Setup the test environment.
      */
